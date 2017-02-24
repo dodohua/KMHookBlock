@@ -2,7 +2,7 @@
 //  NSObject+SwizzleBlock.m
 //  playnow
 //
-//  Created by 杜庚华 on 17/1/18.
+//  Created by allen du on 17/1/18.
 //  Copyright © 2017年 dodohua. All rights reserved.
 //
 
