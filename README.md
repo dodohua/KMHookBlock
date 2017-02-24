@@ -3,6 +3,7 @@ objective-c runtime hook selector using block,like KVO  to KVS
 in the KMHookBlock,you can hook any select for a class as you want
 
 Example：
+```objective-c
 #import "NSObject+kmHookBlock.h"
 TestViewController *testHook;
 //we want to hook testhook viewWillAppear selector
@@ -15,3 +16,4 @@ TestViewController *testHook;
             NSLog(@"hook after viewWillAppear");
         },
         NIL_PAIR}];
+ ```
