@@ -9,7 +9,7 @@
 #import "NSObject+kmHookBlock.h"
 
 @implementation NSObject (kmHookBlock)
--(void)hookSelectorWithBlock:(selBlockPair *)impls
++(void)hookSelectorWithBlock:(selBlockPair *)impls
 {
     while (impls && impls->aSEL)
     {

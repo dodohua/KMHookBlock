@@ -24,8 +24,15 @@
 - (IBAction)testHookClick:(UIButton *)sender {
     TestViewController *testHook = [[TestViewController alloc]initWithNibName:@"TestViewController" bundle:nil];
     [self.navigationController pushViewController:testHook animated:YES];
-    
-    [testHook hookSelectorWithBlock:PAIR_LIST {
+//    [TestViewController hookSelectorWithBlock:PAIR_LIST {
+//        @selector(setInterval:),
+//        BLOCK_CAST ^void (id slf,NSInteger interval) {
+//            NSLog(@"hook befor setInterval,setInterval%lu",interval);
+//            performSuperSelector(slf, @selector(setInterval:), void,interval);
+//            NSLog(@"hook after setInterval");
+//        },
+//        NIL_PAIR}];
+    [TestViewController hookSelectorWithBlock:PAIR_LIST {
         @selector(viewWillAppear:),
         BLOCK_CAST ^void (id slf,BOOL animated) {
             NSLog(@"hook befor viewWillAppear");
@@ -35,16 +42,19 @@
         NIL_PAIR}];
     
     
-    [testHook hookSelectorWithBlock:PAIR_LIST {
+    [TestViewController hookSelectorWithBlock:PAIR_LIST {
         @selector(btn1Click:),
         BLOCK_CAST ^void (id slf,UIButton *sender) {
             NSLog(@"hook befor btn1Click");
             performSuperSelector(slf, @selector(btn1Click:), void,sender);
+            NSInteger interval = 600;
+            performSelector(slf, @selector(setInterval:), void,interval);
+            //            performSuperSelector(slf, @selector(mobStarStatistics), void,nil);
             NSLog(@"hook after btn1Click");
         },
         NIL_PAIR}];
     
-    [testHook hookSelectorWithBlock:PAIR_LIST {
+    [TestViewController hookSelectorWithBlock:PAIR_LIST {
         @selector(btn2Click:),
         BLOCK_CAST ^void (id slf,UIButton *sender) {
             NSLog(@"hook befor btn2Click");

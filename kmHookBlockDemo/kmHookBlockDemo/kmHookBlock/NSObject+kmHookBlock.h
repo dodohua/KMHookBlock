@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 
+//调用performSelector 参数的类型要非常准确才可以，比如传输是NSInteger 必须定义成NSInteger interval = 300; 然后传入interval
+
 #if !(TARGET_IPHONE_SIMULATOR)
 #define performSelector(slf,selector,returnType,...)({\
 Class slfCls = [slf class];\
@@ -39,6 +41,6 @@ typedef struct selBlockPair { SEL aSEL; id (^__unsafe_unretained aBlock)(id, ...
 #define PAIR_LIST (struct selBlockPair [])
 #define BLOCK_CAST (id (^)(id, ...))
 @interface NSObject (kmHookBlock)
--(void)hookSelectorWithBlock:(selBlockPair *)impls;
++(void)hookSelectorWithBlock:(selBlockPair *)impls;
 - (id)performSuperSelector:(SEL)aSelector withArguments:(NSArray *)arguments;
 @end

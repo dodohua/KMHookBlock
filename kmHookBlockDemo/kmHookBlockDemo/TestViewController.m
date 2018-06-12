@@ -22,6 +22,12 @@
 {
     [super viewWillAppear:animated];
     NSLog(@"TestView viewWillAppear");
+    
+}
+
+-(void)setInterval:(NSInteger)interval
+{
+    NSLog(@"interval%lu",interval);
 }
 
 - (IBAction)btn1Click:(UIButton *)sender {
