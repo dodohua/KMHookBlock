@@ -25,13 +25,9 @@
     
 }
 
--(void)setInterval:(NSInteger)interval
-{
-    NSLog(@"interval%lu",interval);
-}
-
 - (IBAction)btn1Click:(UIButton *)sender {
     NSLog(@"click btn1");
+    NSLog(@"interval%lu",_interval);
 }
 - (IBAction)btn2Click:(UIButton *)sender {
     NSLog(@"click btn2");

@@ -22,15 +22,23 @@
         SEL selectorHook = NSSelectorFromString(selectorHookName);
         
         NSMethodSignature *methodSignature = [self methodSignatureForSelector:selectorHook];
-        
-        Method origMethod = class_getInstanceMethod([self class], impls->aSEL);
-        const char * typeDescription = (char *)method_getTypeEncoding(origMethod);
-        
         //if hook selecter has add continue next
         if (methodSignature) {
             impls++;
             continue;
         }
+        
+        Method origMethod = class_getInstanceMethod([self class], impls->aSEL);
+        if (origMethod == nil) {
+            origMethod = class_getClassMethod([self class], impls->aSEL);
+        }
+        //this class dont have this method，so continue next
+        if (origMethod == nil) {
+            continue;
+        }
+        const char * typeDescription = (char *)method_getTypeEncoding(origMethod);
+        
+        
         
         //必须要把原方法加进来 must add org selector
         
@@ -101,5 +109,36 @@
     // 需要做返回类型判断。比如返回值为常量需要包装成对象，这里仅以最简单的`@`为例
     return returnVal;
     
+}
+
+-(void)printAllSelector
+{
+    int i = 0;
+    unsigned int mc = 0;
+    
+    const char* className = class_getName([self class]);
+    
+    Method* mlist = class_copyMethodList([self class], &mc);
+    for (i = 0; i < mc; i++)
+    {
+        Method method = mlist[i];
+        SEL methodSelector = method_getName(method);
+        const char* methodName = sel_getName(methodSelector);
+        
+        const char *typeEncodings = method_getTypeEncoding(method);
+        
+        char returnType[80];
+        method_getReturnType(method, returnType, 80);
+        
+        NSLog(@"%s ==> %s (%s)", className, methodName, (typeEncodings == Nil) ? "" : typeEncodings);
+        
+        int ac = method_getNumberOfArguments(method);
+        int a = 0;
+        for (a = 0; a < ac; a++) {
+            char argumentType[80];
+            method_getArgumentType(method, a, argumentType, 80);
+            NSLog(@"   Argument no #%d: %s", a, argumentType);
+        }
+    }
 }
 @end

@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface TestViewController : UIViewController
-
+{
+    long long _interval;
+}
+@property(nonatomic) long long interval;
 @end

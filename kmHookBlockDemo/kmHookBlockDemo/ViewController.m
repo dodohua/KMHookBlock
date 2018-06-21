@@ -32,7 +32,8 @@
 //            NSLog(@"hook after setInterval");
 //        },
 //        NIL_PAIR}];
-    [TestViewController hookSelectorWithBlock:PAIR_LIST {
+    Class tarClass = NSClassFromString(@"TestViewController");
+    [tarClass hookSelectorWithBlock:PAIR_LIST {
         @selector(viewWillAppear:),
         BLOCK_CAST ^void (id slf,BOOL animated) {
             NSLog(@"hook befor viewWillAppear");
@@ -42,19 +43,23 @@
         NIL_PAIR}];
     
     
-    [TestViewController hookSelectorWithBlock:PAIR_LIST {
+    [tarClass hookSelectorWithBlock:PAIR_LIST {
         @selector(btn1Click:),
         BLOCK_CAST ^void (id slf,UIButton *sender) {
             NSLog(@"hook befor btn1Click");
-            performSuperSelector(slf, @selector(btn1Click:), void,sender);
-            NSInteger interval = 600;
+            long long interval = 900;
             performSelector(slf, @selector(setInterval:), void,interval);
+            NSInteger val = performSelector(slf, @selector(interval), NSInteger,nil);
+            NSLog(@"hookinterval%lu",val);
+            
+            performSuperSelector(slf, @selector(btn1Click:), void,sender);
+            
             //            performSuperSelector(slf, @selector(mobStarStatistics), void,nil);
             NSLog(@"hook after btn1Click");
         },
         NIL_PAIR}];
     
-    [TestViewController hookSelectorWithBlock:PAIR_LIST {
+    [tarClass hookSelectorWithBlock:PAIR_LIST {
         @selector(btn2Click:),
         BLOCK_CAST ^void (id slf,UIButton *sender) {
             NSLog(@"hook befor btn2Click");
